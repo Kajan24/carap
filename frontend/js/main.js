@@ -1,31 +1,61 @@
-'use strict'
+'use strict';
 
-import * as SPA from './spa.js';
-// import * as CLASSE from './classe.js';
+import * as BRAND from './brand.js';
 
-
-SPA.showView('home');
-
-for (const link of document.querySelectorAll('.link')) {
-    link.addEventListener('click', event => SPA.newLink(event));
-}
-
-var map = L.map('mapid').setView([48.8566, 2.3522], 13);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
+var map = L.map('map').setView([46.200745, 6.148224], 10);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    maxZoom: 19,
 }).addTo(map);
 
-document.getElementById('geocodeBtn').onclick = function () {
-    var address = document.getElementById('addressInput').value;
-    fetch(`https://geocode.maps.co/search?q=${encodeURIComponent(address)}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data && data.length > 0) {
-                var latLng = [data[0].lat, data[0].lon];
-                L.marker(latLng).addTo(map)
-                    .bindPopup(address)
-                    .openPopup();
-                map.setView(latLng, 13);
-            }
+BRAND.readAll().then(result => {
+    let brands = JSON.parse(result);
+    let html = "";
+    for (const brand of brands) {
+        let marker = L.marker([brand.longitude, brand.latitude]).addTo(map);
+
+        marker.bindPopup(`<b>${brand.name}</b><br>Depuis: ${brand.since} <br> Groupe: ${brand.group}`);
+
+
+        marker.on('click', () => {
+            map.setView([brand.longitude, brand.latitude], 18);
         });
-};
+
+
+        marker.on('mouseover', () => {
+            marker.openPopup();
+        });
+
+
+        marker.on('mouseout', () => {
+            marker.closePopup();
+        });
+
+
+        html += `<li>${brand.name}</li>`
+    }
+    document.getElementById("allBrands").innerHTML = html;
+
+    document.getElementById("searchForm").addEventListener("submit", (event) => {
+        event.preventDefault(); 
+        searchBrand(brands);
+    });
+});
+
+function searchBrand(brands) {
+    let brandName = document.getElementById('searchInput').value.trim().toLowerCase();
+
+    for (const brand of brands) {
+        if (brand.name.toLowerCase() === brandName) {
+            map.setView([brand.longitude, brand.latitude], 18);
+            return;
+        }
+    }
+    alert("Marque non trouvée !");
+}
+
+
+
+
+
+
+

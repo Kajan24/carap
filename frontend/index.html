@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <!-- 
     Projet: Carap
     Details: Application web avec leaflet
@@ -10,53 +10,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-
-    <link rel="stylesheet"
-        href="https://unpkg.com/@geoapify/leaflet-address-search-plugin@^1/dist/L.Control.GeoapifyAddressSearch.min.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-    <script
-        src="https://unpkg.com/@geoapify/leaflet-address-search-plugin@^1/dist/L.Control.GeoapifyAddressSearch.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:slnt,wght@-10..0,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Carte LeaFlet</title>
 </head>
 
 <body>
     <header>
-        <div class="menu">
-            <a class="link" href="/home">home</a>
-            <a class="link haveToLogin" href="/map">map</a>
-            <a class="link" href="/aboutUs">à propos de nous</a>
-        </div>
-        <div class="actionDivContainer">
-            <a href="#">login</a>
-        </div>
+        <h1>Carap</h1>
+
+        <form action="#" method="post" id="searchForm">
+            <input type="text" name="searchInput" id="searchInput">
+            <button id="searchButton">Rechercher</button>
+        </form>
     </header>
-
     <main>
+        <div id="map"></div>
 
-        <section class="appView" id="home">
-            <img src="./img/carapMain.svg" alt="logo" id="mainLogo">
-            <a class="link btn" href="/map">Voir la map -></a>
-        </section>
-
-
-        <section class="appView" id="map">
-            <input type="text" id="addressInput" placeholder="Entrez une adresse">
-            <button id="geocodeBtn">Géocoder</button>
-            <div id="mapid"></div>
-
-        </section>
-
-
+        <div>
+            <h2>Toutes les marques disponibles: </h2>
+            <div>
+                <ul id="allBrands">
+                </ul>
+            </div>
+        </div>
     </main>
-
-    <script src="./js/main.js" type="module"></script>
+    <footer></footer>
+    <script type="module" src="./js/main.js"></script>
 </body>
 
 </html>
